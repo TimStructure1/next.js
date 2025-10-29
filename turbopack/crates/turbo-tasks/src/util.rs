@@ -14,10 +14,11 @@ use std::{
 };
 
 use anyhow::{Error, anyhow};
+use bincode::{Decode, Encode, de::Decoder, error::DecodeError};
 use pin_project_lite::pin_project;
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 
-pub use super::{
+pub use crate::{
     id_factory::{IdFactory, IdFactoryWithReuse},
     once_map::*,
 };
@@ -89,16 +90,47 @@ impl<'de> Deserialize<'de> for SharedError {
     fn deserialize<D: Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error> {
         use serde::de::Error;
         let mut messages = <Vec<String>>::deserialize(deserializer)?;
-        let mut e = match messages.pop() {
-            Some(e) => anyhow!(e),
-            None => return Err(Error::custom("expected at least 1 error message")),
-        };
+        let msg = messages
+            .pop()
+            .ok_or_else(|| Error::custom("expected at least 1 error message"))?;
+        let mut e = anyhow!(msg);
         while let Some(message) = messages.pop() {
             e = e.context(message);
         }
         Ok(SharedError::new(e))
     }
 }
+
+impl Encode for SharedError {
+    fn encode<E: bincode::enc::Encoder>(
+        &self,
+        encoder: &mut E,
+    ) -> Result<(), bincode::error::EncodeError> {
+        let mut v = vec![self.to_string()];
+        let mut source = self.source();
+        while let Some(s) = source {
+            v.push(s.to_string());
+            source = s.source();
+        }
+        Encode::encode(&v, encoder)
+    }
+}
+
+impl<Context> Decode<Context> for SharedError {
+    fn decode<D: Decoder<Context = Context>>(decoder: &mut D) -> Result<Self, DecodeError> {
+        let mut messages = <Vec<String>>::decode(decoder)?;
+        let msg = messages
+            .pop()
+            .ok_or(DecodeError::Other("expected at least 1 error message"))?;
+        let mut e = anyhow!(msg);
+        while let Some(message) = messages.pop() {
+            e = e.context(message);
+        }
+        Ok(SharedError::new(e))
+    }
+}
+
+bincode::impl_borrow_decode!(SharedError);
 
 impl Deref for SharedError {
     type Target = Arc<Error>;

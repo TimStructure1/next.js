@@ -9,6 +9,7 @@ use std::{
     path::{Path, PathBuf},
 };
 
+use bincode::{Decode, Encode, de::Decoder, enc::Encoder, error::EncodeError, impl_borrow_decode};
 use bytes_str::BytesStr;
 use debug_unreachable::debug_unreachable;
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
@@ -368,6 +369,22 @@ impl<'de> Deserialize<'de> for RcStr {
         Ok(RcStr::from(s))
     }
 }
+
+impl Encode for RcStr {
+    fn encode<E: Encoder>(&self, encoder: &mut E) -> Result<(), EncodeError> {
+        self.as_str().encode(encoder)
+    }
+}
+
+impl<Context> Decode<Context> for RcStr {
+    fn decode<D: Decoder<Context = Context>>(
+        decoder: &mut D,
+    ) -> Result<Self, bincode::error::DecodeError> {
+        Ok(RcStr::from(String::decode(decoder)?))
+    }
+}
+
+impl_borrow_decode!(RcStr);
 
 impl Drop for RcStr {
     fn drop(&mut self) {
