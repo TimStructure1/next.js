@@ -63,17 +63,18 @@ use crate::{
 };
 
 #[serde_as]
-#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize, Encode, Decode)]
 struct BytesBase64 {
     #[serde_as(as = "serde_with::base64::Base64")]
     binary: Vec<u8>,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Clone)]
+#[turbo_tasks::value]
 #[serde(rename_all = "camelCase")]
-#[turbo_tasks::value(serialization = "custom")]
 struct WebpackLoadersProcessingResult {
     #[serde(with = "either::serde_untagged")]
+    #[bincode(with = "turbo_bincode::either")]
     #[turbo_tasks(debug_ignore, trace_ignore)]
     source: Either<RcStr, BytesBase64>,
     map: Option<RcStr>,

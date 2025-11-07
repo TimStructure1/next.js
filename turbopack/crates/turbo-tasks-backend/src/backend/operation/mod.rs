@@ -13,7 +13,7 @@ use std::{
     sync::{Arc, atomic::Ordering},
 };
 
-use serde::{Deserialize, Serialize};
+use bincode::{Decode, Encode};
 use turbo_tasks::{FxIndexMap, KeyValuePair, SessionId, TaskId, TurboTasksBackendApi};
 
 use crate::{
@@ -30,11 +30,7 @@ use crate::{
 };
 
 pub trait Operation:
-    Serialize
-    + for<'de> Deserialize<'de>
-    + Default
-    + TryFrom<AnyOperation, Error = ()>
-    + Into<AnyOperation>
+    Encode + Decode<()> + Default + TryFrom<AnyOperation, Error = ()> + Into<AnyOperation>
 {
     fn execute(self, ctx: &mut impl ExecuteContext);
 }
@@ -703,7 +699,7 @@ macro_rules! impl_operation {
     };
 }
 
-#[derive(Serialize, Deserialize, Clone)]
+#[derive(Encode, Decode, Clone)]
 pub enum AnyOperation {
     ConnectChild(connect_child::ConnectChildOperation),
     Invalidate(invalidate::InvalidateOperation),

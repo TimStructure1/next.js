@@ -591,9 +591,9 @@ fn field_declarations(fields: &[Vec<&syn::Field>]) -> Vec<proc_macro2::TokenStre
                 .map(|field| {
                     let ty = &field.ty;
                     let ident = field.ident.as_ref().unwrap();
-                    let attrs = &field.attrs;
+                    //let attrs = &field.attrs;
                     quote! {
-                        #(#attrs)*
+                        //#(#attrs)*
                         #ident: #ty
                     }
                 })
@@ -614,9 +614,9 @@ fn ref_field_declarations(fields: &[Vec<&syn::Field>]) -> Vec<proc_macro2::Token
                 .map(|field| {
                     let ty = &field.ty;
                     let ident = field.ident.as_ref().unwrap();
-                    let attrs = &field.attrs;
+                    //let attrs = &field.attrs;
                     quote! {
-                        #(#attrs)*
+                        //#(#attrs)*
                         #ident: &'l #ty
                     }
                 })
@@ -637,9 +637,9 @@ fn mut_ref_field_declarations(fields: &[Vec<&syn::Field>]) -> Vec<proc_macro2::T
                 .map(|field| {
                     let ty = &field.ty;
                     let ident = field.ident.as_ref().unwrap();
-                    let attrs = &field.attrs;
+                    //let attrs = &field.attrs;
                     quote! {
-                        #(#attrs)*
+                        //#(#attrs)*
                         #ident: &'l mut #ty
                     }
                 })
