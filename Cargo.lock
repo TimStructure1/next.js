@@ -9250,7 +9250,6 @@ dependencies = [
  "turbo-tasks-macros",
  "turbo-tasks-malloc",
  "unsize",
- "unty",
 ]
 
 [[package]]
@@ -9300,6 +9299,7 @@ dependencies = [
  "afl",
  "anyhow",
  "arbitrary",
+ "bincode 2.0.1",
  "libfuzzer-sys",
  "once_cell",
  "serde",
@@ -9438,6 +9438,7 @@ name = "turbo-tasks-macros-tests"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "bincode 2.0.1",
  "serde",
  "tokio",
  "trybuild",
@@ -9578,6 +9579,7 @@ name = "turbopack-cli"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "bincode 2.0.1",
  "clap",
  "codspeed-criterion-compat",
  "console-subscriber",
