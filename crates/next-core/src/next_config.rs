@@ -76,7 +76,7 @@ impl Default for CacheKinds {
 }
 
 #[turbo_tasks::value(eq = "manual")]
-#[derive(Clone, Debug, Default, PartialEq)]
+#[derive(Clone, Debug, Default, PartialEq, Deserialize)]
 #[serde(default, rename_all = "camelCase")]
 pub struct NextConfig {
     // IMPORTANT: all fields should be private and access should be wrapped within a turbo-tasks
@@ -859,16 +859,7 @@ pub enum ModuleIds {
 pub struct OptionModuleIds(pub Option<ModuleIds>);
 
 #[derive(
-    Clone,
-    Debug,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    TraceRawVcs,
-    NonLocalValue,
-    OperationValue,
-    Encode,
-    Decode,
+    Clone, Debug, PartialEq, Deserialize, TraceRawVcs, NonLocalValue, OperationValue, Encode, Decode,
 )]
 #[serde(untagged)]
 pub enum MdxRsOptions {
@@ -933,7 +924,6 @@ pub struct OptionalReactCompilerOptions(Option<ResolvedVc<ReactCompilerOptions>>
     Debug,
     Default,
     PartialEq,
-    Serialize,
     Deserialize,
     TraceRawVcs,
     ValueDebugFormat,
@@ -1275,16 +1265,7 @@ pub enum MiddlewarePrefetchType {
 }
 
 #[derive(
-    Clone,
-    Debug,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    TraceRawVcs,
-    NonLocalValue,
-    OperationValue,
-    Encode,
-    Decode,
+    Clone, Debug, PartialEq, Deserialize, TraceRawVcs, NonLocalValue, OperationValue, Encode, Decode,
 )]
 #[serde(untagged)]
 pub enum EmotionTransformOptionsOrBoolean {
@@ -1302,16 +1283,7 @@ impl EmotionTransformOptionsOrBoolean {
 }
 
 #[derive(
-    Clone,
-    Debug,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    TraceRawVcs,
-    NonLocalValue,
-    OperationValue,
-    Encode,
-    Decode,
+    Clone, Debug, PartialEq, Deserialize, TraceRawVcs, NonLocalValue, OperationValue, Encode, Decode,
 )]
 #[serde(untagged)]
 pub enum StyledComponentsTransformOptionsOrBoolean {
@@ -1329,7 +1301,7 @@ impl StyledComponentsTransformOptionsOrBoolean {
 }
 
 #[turbo_tasks::value(eq = "manual")]
-#[derive(Clone, Debug, PartialEq, Default, OperationValue)]
+#[derive(Clone, Debug, PartialEq, Default, OperationValue, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct CompilerConfig {
     pub react_remove_properties: Option<ReactRemoveProperties>,
@@ -1340,16 +1312,7 @@ pub struct CompilerConfig {
 }
 
 #[derive(
-    Clone,
-    Debug,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    TraceRawVcs,
-    NonLocalValue,
-    OperationValue,
-    Encode,
-    Decode,
+    Clone, Debug, PartialEq, Deserialize, TraceRawVcs, NonLocalValue, OperationValue, Encode, Decode,
 )]
 #[serde(untagged, rename_all = "camelCase")]
 pub enum ReactRemoveProperties {
@@ -1367,16 +1330,7 @@ impl ReactRemoveProperties {
 }
 
 #[derive(
-    Clone,
-    Debug,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    TraceRawVcs,
-    NonLocalValue,
-    OperationValue,
-    Encode,
-    Decode,
+    Clone, Debug, PartialEq, Deserialize, TraceRawVcs, NonLocalValue, OperationValue, Encode, Decode,
 )]
 #[serde(untagged)]
 pub enum RemoveConsoleConfig {

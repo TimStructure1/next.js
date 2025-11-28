@@ -11,16 +11,7 @@ use turbo_tasks_fs::FileSystemPath;
 use turbopack_ecmascript::{CustomTransformer, TransformContext};
 
 #[derive(
-    Clone,
-    Debug,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    TraceRawVcs,
-    NonLocalValue,
-    OperationValue,
-    Encode,
-    Decode,
+    Clone, Debug, PartialEq, Deserialize, TraceRawVcs, NonLocalValue, OperationValue, Encode, Decode,
 )]
 #[serde(rename_all = "camelCase")]
 pub struct RelayConfig {
@@ -30,16 +21,7 @@ pub struct RelayConfig {
 }
 
 #[derive(
-    Clone,
-    Debug,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    TraceRawVcs,
-    NonLocalValue,
-    OperationValue,
-    Encode,
-    Decode,
+    Clone, Debug, PartialEq, Deserialize, TraceRawVcs, NonLocalValue, OperationValue, Encode, Decode,
 )]
 #[serde(rename_all = "lowercase")]
 pub enum RelayLanguage {
