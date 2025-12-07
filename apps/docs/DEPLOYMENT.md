@@ -20,9 +20,7 @@ This is the recommended method for continuous deployment.
 4. Configure the project:
    - **Framework Preset**: Next.js
    - **Root Directory**: `apps/docs`
-   - **Build Command**: `pnpm run build-docs` (or leave default)
-   - **Output Directory**: `.next` (or leave default)
-   - **Install Command**: `pnpm install` (or leave default)
+   - The build and install commands are configured in `vercel.json`
 
 ### Step 2: Enable Automatic Deployments
 
@@ -72,8 +70,13 @@ vercel --prod
 
 The following configuration files have been set up:
 
-- **`apps/docs/vercel.json`**: Deployment configuration for the docs app
+- **`apps/docs/vercel.json`**: Deployment configuration with custom install and build commands for the monorepo structure
 - **`apps/docs/.gitignore`**: Prevents build artifacts from being committed
+
+The `vercel.json` ensures that:
+
+- Dependencies are installed from the workspace root (for proper pnpm monorepo resolution)
+- The build command runs from the correct directory
 
 ## Troubleshooting
 
